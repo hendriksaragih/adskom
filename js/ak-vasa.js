@@ -73,6 +73,9 @@ ADSKOM.vasa.Beaconer = function(old_opts) {
 			if (xhr.readyState === 4) {
 				if (xhr.status >= 200 && xhr.status < 300) {
 					opts.success();
+					
+					// trigger cookie sync after successfully push data to beacon server to prevent race condition.
+                                        cDXCSync();
 				}
 				else {
 					opts.error();
@@ -101,7 +104,8 @@ ADSKOM.vasa.Beaconer = function(old_opts) {
 	function isGUrl(url) {
 		var a = document.createElement('a');
 		a.href = url;
-		return /(^.*\.google\.co\.id$)/i.test(a.hostname);
+
+		return /(^www.google\.(([a-z]{2,3}\.[a-z]{2})|([a-z]{2,3})))$/im.test(a.hostname);
 	}
 
 	function buildPayload() {
@@ -131,6 +135,9 @@ ADSKOM.vasa.Beaconer = function(old_opts) {
 		},
 		createDxCookieSync: function() {
 			cDXCSync();
+		},
+		setEventType: function(etype) {
+			setEventType(etype);
 		}
 	}
 };
@@ -141,13 +148,11 @@ if (!window.Adskom_q || window.Adskom_q instanceof Array) {
 	var b = ADSKOM.vasa.Beaconer(window.Adskom_q);
 
 	if (__current_url.indexOf("gclid=") != -1) {    
-		b.setEventType = 1; // SEA 
+		b.setEventType("S1"); // SEA 
 		b.sendEvent();
-		b.createDxCookieSync();
 	}
 	else if (b.isGoogleUrl(document.referrer)) {
-		b.setEventType = 2; // SEO 
+		b.setEventType("S2"); // SEO 
 		b.sendEvent();
-		b.createDxCookieSync();
 	}
 }
