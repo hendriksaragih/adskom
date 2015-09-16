@@ -27,7 +27,7 @@ public class Tracker {
 	}
 
 	private String getUrl() {
-		return API_SERVER + "/" + path;
+		return API_SERVER + "/" + path + "/";
 	}
 
 	public void setAccount(int account) {
