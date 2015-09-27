@@ -30,3 +30,5 @@ proguard/
 .project
 .settings
 .classpath
+.metadata
+appcompat_v7/

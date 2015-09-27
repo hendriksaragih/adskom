@@ -6,8 +6,8 @@ import org.json.JSONObject;
 import android.util.Log;
 
 public class Tracker {
-	private String API_SERVER = "http://dummy01.sj-slu.adskom.net/v1";
-	private final String path = "track.php";
+	private String API_SERVER = "http://ava.adskom.com/events";
+	private final String path = "b/";
 	private int account;
 	private String eventName;
 	private String siteType = "a";			
